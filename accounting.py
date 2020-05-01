@@ -1,61 +1,32 @@
 melon_cost = 1.00
 
-customer1_name = "Joe"
-customer1_melons = 5
-customer1_paid = 5.00
+def get_payment_data(path_file):
 
-customer2_name = "Frank"
-customer2_melons = 6
-customer2_paid = 6.00
+  payment_data = open(path_file)
 
-customer3_name = "Sally"
-customer3_melons = 3
-customer3_paid = 3.00
+  for line in payment_data:
+    order = line.split("|")
 
-customer4_name = "Sean"
-customer4_melons = 9
-customer4_paid = 9.50
+    customer_name = order[1]
+    first_name = customer_name.split(" ")[0]
 
-customer5_name = "David"
-customer5_melons = 4
-customer5_paid = 4.00
+    melon_count = float(order[2])
+    paid = float(order[3])
 
-customer6_name = "Ashley"
-customer6_melons = 3
-customer6_paid = 2.00
+    expected_price = melon_cost *  melon_count
+    owes = expected_price - paid
+    owed = paid - expected_price
 
-customer1_expected = customer1_melons * melon_cost
-if customer1_expected != customer1_paid:
-    print(f"{customer1_name} paid ${customer1_paid:.2f},",
-          f"expected ${customer1_expected:.2f}"
-          )
 
-customer2_expected = customer2_melons * melon_cost
-if customer2_expected != customer2_paid:
-    print(f"{customer2_name} paid ${customer2_paid:.2f},",
-          f"expected ${customer2_expected:.2f}"
-          )
+    print(f"{customer_name} paid ${paid:.2f}, expected ${expected_price:.2f}")
 
-customer3_expected = customer3_melons * melon_cost
-if customer3_expected != customer3_paid:
-    print(f"{customer3_name} paid ${customer3_paid:.2f},",
-          f"expected ${customer3_expected:.2f}"
-          )
+    if expected_price < paid:
+      print(f"\t{first_name} has overpaid for their melons and is owed ${owed:.2f}.")
 
-customer4_expected = customer4_melons * melon_cost
-if customer4_expected != customer4_paid:
-    print(f"{customer4_name} paid ${customer4_paid:.2f},",
-          f"expected ${customer4_expected:.2f}"
-          )
+    elif expected_price > paid:
+      print(f"\t{first_name} has underpaid for their melons and owes ${owes:.2f}.")
 
-customer5_expected = customer5_melons * melon_cost
-if customer5_expected != customer5_paid:
-    print(f"{customer5_name} paid ${customer5_paid:.2f},",
-          f"expected ${customer5_expected:.2f}"
-          )
+  payment_data.close()
 
-customer6_expected = customer6_melons * melon_cost
-if customer6_expected != customer6_paid:
-    print(f"{customer6_name} paid ${customer6_paid:.2f},",
-          f"expected ${customer6_expected:.2f}"
-          )
+
+get_payment_data("customer-orders.txt")
